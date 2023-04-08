@@ -699,6 +699,7 @@ private:
   QColor color_WorkedCall_dark_;
   QColor next_color_WorkedCall_dark_;
   qint32 id_interval_;
+  qint32 align_steps_;
   qint32 ntrials_;
   qint32 ntrials10_;
   qint32 ntrialsrxf10_;
@@ -785,6 +786,9 @@ private:
   bool differentBackground_;
   bool cyan_;
   bool yellow_;
+  bool showDistance_;
+  bool showAzimuth_;
+  bool align_;
   bool hidehintMarker_;
   bool txtColor_;
   bool workedColor_;
@@ -970,6 +974,7 @@ QColor Configuration::color_WorkedCall () const {return  m_->useDarkStyle_? m_->
 QFont Configuration::text_font () const {return m_->font_;}
 QFont Configuration::decoded_text_font () const {return m_->decoded_text_font_;}
 qint32 Configuration::id_interval () const {return m_->id_interval_;}
+qint32 Configuration::align_steps () const {return m_->align_steps_;}
 qint32 Configuration::ntrials() const {return m_->ntrials_;}
 qint32 Configuration::ntrials10() const {return m_->ntrials10_;}
 qint32 Configuration::ntrialsrxf10() const {return m_->ntrialsrxf10_;}
@@ -1060,6 +1065,9 @@ bool Configuration::blueMarker () const {return m_->blueMarker_;}
 bool Configuration::differentBackground () const {return m_->differentBackground_;}
 bool Configuration::cyan () const {return m_->cyan_;}
 bool Configuration::yellow () const {return m_->yellow_;}
+bool Configuration::showDistance() const {return m_->showDistance_;}
+bool Configuration::showAzimuth() const {return m_->showAzimuth_;}
+bool Configuration::align() const {return m_->align_;}
 bool Configuration::hidehintMarker () const {return m_->hidehintMarker_;}
 bool Configuration::txtColor () const {return m_->txtColor_;}
 bool Configuration::workedColor () const {return m_->workedColor_;}
@@ -1522,6 +1530,9 @@ Configuration::impl::impl (Configuration * self, QSettings * settings, QWidget *
   ui_->differentBackground_check_box->setChecked(differentBackground_ && cyan_);
   ui_->cyan_check_box->setEnabled(differentBackground_);
   ui_->yellow_check_box->setEnabled(differentBackground_);
+  ui_->cb_showDistance->setChecked(showDistance_);
+  ui_->cb_showAzimuth->setChecked(showAzimuth_);
+  ui_->cb_Align->setChecked(align_);
 
   ui_->workedColor_check_box->setChecked((newCQZ_ || newITUZ_ || newDXCC_ || newGrid_ || newPx_ || newCall_) && workedColor_);
   ui_->workedColor_check_box->setEnabled(newCQZ_ || newITUZ_ || newDXCC_ || newGrid_ || newPx_ || newCall_);
@@ -2004,6 +2015,7 @@ Radio::convert_dark("#fafbfe",useDarkStyle_),Radio::convert_dark("#dcdef1",useDa
   ui_->labWorkedScCall->setVisible((newCQZ_ || newITUZ_ || newDXCC_ || newGrid_ || newPx_ || newCall_) && newPotential_);
 
   ui_->CW_id_interval_spin_box->setValue (id_interval_);  
+  ui_->align_spin_box->setValue (align_steps_);
   ui_->sbNtrials->setValue (ntrials_);
   ui_->sbTxDelay->setValue (txDelay_);
   ui_->sbNtrials10->setValue (ntrials10_);
@@ -2099,6 +2111,9 @@ Radio::convert_dark("#fafbfe",useDarkStyle_),Radio::convert_dark("#dcdef1",useDa
   ui_->differentBackground_check_box->setChecked (differentBackground_);
   ui_->cyan_check_box->setChecked (cyan_);
   ui_->yellow_check_box->setChecked (yellow_);
+  ui_->cb_showDistance->setChecked(showDistance_);
+  ui_->cb_showAzimuth->setChecked(showAzimuth_);
+  ui_->cb_Align->setChecked(align_);
   ui_->hideHint_check_box->setChecked (hidehintMarker_);
   ui_->txtColor_check_box->setChecked (txtColor_);
   ui_->workedColor_check_box->setChecked (workedColor_ && (newCQZ_ || newITUZ_ || newDXCC_ || newCall_ || newPx_ || newGrid_));
@@ -2308,6 +2323,7 @@ void Configuration::impl::read_settings ()
     }
 
   id_interval_ = settings_->value ("IDint", 0).toInt (); if(!(id_interval_>=0 && id_interval_<=99)) id_interval_=0;
+  align_steps_ = settings_->value ("AlignInt", 1).toInt (); if(!(align_steps_>=6 && align_steps_<=-3)) align_steps_=1;
   ntrials_ = settings_->value ("nTrials", 3).toInt (); if(!(ntrials_>=1 && ntrials_<=8)) ntrials_=3;
 
   qint32 ntxDelay=settings_->value ("TxDelayInt",100).toInt();
@@ -2623,6 +2639,9 @@ void Configuration::impl::read_settings ()
   differentBackground_ = settings_->value ("differentBackground", false).toBool ();
   cyan_ = settings_->value ("cyanBackground", true).toBool ();
   yellow_ = settings_->value ("yellowBackground", false).toBool ();
+  showDistance_ = settings_->value("showDistance", false).toBool();
+  showAzimuth_ = settings_->value("showAzimuth", false).toBool();
+  align_ = settings_->value("AlignDistanceAzimuth", false).toBool();
   hidehintMarker_ = settings_->value ("hidehintMarker", false).toBool ();
   clear_DX_ = settings_->value ("ClearCallGrid", false).toBool ();
   clear_DX_exit_ = settings_->value ("ClearCallGridExit", false).toBool ();
@@ -2750,6 +2769,7 @@ void Configuration::impl::write_settings ()
   settings_->setValue ("Font", font_.toString ());
   settings_->setValue ("DecodedTextFont", decoded_text_font_.toString ());
   settings_->setValue ("IDint", id_interval_);
+  settings_->setValue ("AlignInt", align_steps_);
   settings_->setValue ("nTrials", ntrials_);
   int ntxDelay=1000*txDelay_;
   settings_->setValue ("TxDelayInt", ntxDelay);
@@ -2882,6 +2902,9 @@ void Configuration::impl::write_settings ()
   settings_->setValue ("differentBackground", differentBackground_);
   settings_->setValue ("cyanBackground", cyan_);
   settings_->setValue ("yellowBackground", yellow_);
+  settings_->setValue ("showDistance", showDistance_);
+  settings_->setValue ("showAzimuth", showAzimuth_);
+  settings_->setValue ("AlignDistanceAzimuth", align_);
   settings_->setValue ("hidehintMarker", hidehintMarker_);
   settings_->setValue ("txtColor", txtColor_);
   settings_->setValue ("workedColor", workedColor_);
@@ -3433,6 +3456,7 @@ void Configuration::impl::accept ()
   sched_band_5_ = ui_->bandComboBox_5->currentText ();
   sched_mix_5_ = ui_->band_mix_check_box_5->isChecked ();
   id_interval_ = ui_->CW_id_interval_spin_box->value ();
+  align_steps_ = ui_->align_spin_box->value ();
   ntrials_ = ui_->sbNtrials->value ();
   txDelay_ = ui_->sbTxDelay->value ();
   ntrials10_ = ui_->sbNtrials10->value ();
@@ -3492,6 +3516,9 @@ void Configuration::impl::accept ()
   differentBackground_ = ui_->differentBackground_check_box->isChecked ();
   cyan_ = ui_->cyan_check_box->isChecked ();
   yellow_ = ui_->yellow_check_box->isChecked ();
+  showDistance_ = ui_->cb_showDistance->isChecked();
+  showAzimuth_ = ui_->cb_showAzimuth->isChecked();
+  align_ = ui_->cb_Align->isChecked();
   hidehintMarker_ = ui_->hideHint_check_box->isChecked ();
   txtColor_ = ui_->txtColor_check_box->isChecked ();
   workedColor_ = ui_->workedColor_check_box->isChecked ();

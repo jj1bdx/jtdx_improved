@@ -33,7 +33,7 @@ CAboutDlg::CAboutDlg(QWidget *parent) :
                          "NL9222, OE1MWW, ON3CQ, PA7TWO, PP5FMM, R3BB, RK3AOL, RX3ASP, RA4UDC, RW4O, R0JF,<br>"
                          "SM0LTV, SP2L, SV1IYF, UA3ALE, US-E-12, VE3NEA, VK3AMA, VK6KXW, VK7YUM, VR2UPU,<br>"
                          "W9MDB, YL3GBC family and LY3BG family: Vytas and Rimas Kudelis. <br><br>"
-                         "&copy; 2022 improved version developed by DG2YCB"
+                         "&copy; 2022 improved version developed by Uwe Risse, DG2YCB"
                          "<br><br>"
                          "JTDX is licensed under the terms of Version3<br>"
                          "of the GNU General Public License(GPL)<br>"

@@ -1230,7 +1230,8 @@ void MainWindow::writeSettings()
   m_settings->setValue("CallHigherNewCall",ui->actionCallHigherNewCall->isChecked());
   m_settings->setValue("SingleShotQSO",ui->actionSingleShot->isChecked());
   m_settings->setValue("AutoFilter",ui->actionAutoFilter->isChecked());
-  m_settings->setValue("EnableHoundMode",ui->actionEnable_hound_mode->isChecked());  
+  m_settings->setValue("HideBandButtons",ui->actionBand_buttons->isChecked());
+  m_settings->setValue("EnableHoundMode",ui->actionEnable_hound_mode->isChecked());
   m_settings->setValue("ShowHarmonics",ui->actionShow_messages_decoded_from_harmonics->isChecked());
   m_settings->setValue("HideFTContestMessages",ui->actionHide_FT_contest_messages->isChecked());
   m_settings->setValue("HideTelemetryMessages",ui->actionHide_telemetry_messages->isChecked());
@@ -1498,6 +1499,7 @@ void MainWindow::readSettings()
   ui->actionSingleShot->setChecked(m_settings->value("SingleShotQSO",false).toBool());
   ui->actionAutoFilter->setChecked(m_settings->value("AutoFilter",false).toBool());
   ui->actionEnable_hound_mode->setChecked(m_settings->value("EnableHoundMode",false).toBool());
+  ui->actionBand_buttons->setChecked(m_settings->value("HideBandButtons",false).toBool());
 
   ui->actionShow_messages_decoded_from_harmonics->setChecked(m_settings->value("ShowHarmonics",false).toBool());
 
@@ -2596,6 +2598,7 @@ void MainWindow::displayDialFrequency ()
     }
     ui->bandComboBox->setCurrentText (band_name);
     m_wideGraph->setRxBand (band_name);
+    band_changed(true);  // update state and color of the band buttons when dialling the VFO
   }
   m_lastBand = band_name;
   // search working frequencies for one we are within 10kHz of (1 Mhz of on VHF and up)
@@ -2696,6 +2699,9 @@ ui->enableTxButton->setStyleSheet(QString("QPushButton{color: %1;background: %2;
   else ui->AutoTxButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
   ui->tuneButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#ff0000",m_useDarkStyle)));
   ui->monitorButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+  ui->ft8Button->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+  ui->ft4Button->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+  ui->jtButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
   ui->bypassButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
   ui->singleQSOButton->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
   ui->AnsB4Button->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
@@ -2947,6 +2953,8 @@ void MainWindow::on_pbSpotDXCall_clicked ()
 void MainWindow::msgBox(QString t) { msgBox0.setText(t); msgBox0.translate_buttons(); msgBox0.exec(); }
 void MainWindow::on_actionJTDX_Web_Site_triggered() { m_manual.display_html_url (QUrl {PROJECT_MANUAL_DIRECTORY_URL}, PROJECT_MANUAL); }
 void MainWindow::on_actionJTDX_Forum_triggered() { m_manual.display_html_url (QUrl {"https://jtdx.freeforums.net/"}, ""); }
+void MainWindow::on_actionJTDX_improved_Home_Page_triggered() { m_manual.display_html_url (QUrl {"https://jtdx-improved.sourceforge.io/"}, ""); }
+void MainWindow::on_actionThe_additional_features_of_jtdx_improved_triggered() { m_manual.display_html_url (QUrl {"https://jtdx-improved.sourceforge.io/The_additional_features_of_jtdx_improved.pdf"}, ""); }
 
 /*Display local copy of manual
 void MainWindow::on_actionLocal_User_Guide_triggered()
@@ -3994,6 +4002,28 @@ void MainWindow::readFromStdout()                             //readFromStdout
       bool bypassRxfFilters = false;
       int notified = 2;
 
+      // show distance and azimuth
+      QString distance;
+      if ((m_config.showDistance() || m_config.showAzimuth()) && grid != "") {
+          double utch=0.0;
+          int nAz,nEl,nDmiles,nDkm,nHotAz,nHotABetter;
+          if (grid != "" && !m_config.my_grid ().isEmpty())
+            azdist_(const_cast <char *> ((m_config.my_grid () + "        ").left (8).toLatin1().constData()),
+                  const_cast <char *> ((grid + "        ").left (8).toLatin1().constData()),&utch,
+                  &nAz,&nEl,&nDmiles,&nDkm,&nHotAz,&nHotABetter,8,8);
+          if (m_config.showDistance()) {
+              int nd=nDkm;
+              if(m_config.miles()) nd=nDmiles;
+              distance = QString::number(nd);
+              if(m_config.miles()) distance += " mi";
+              if(!m_config.miles()) distance += " km";
+          }
+          if (m_config.showAzimuth()) {
+              if (distance.length()) distance += " / ";
+              distance += QString::number(nAz) + "°";
+          }
+      }
+
       notified = ui->decodedTextBrowser->displayDecodedText (&decodedtext
                                                     , m_baseCall
                                                     , Radio::base_callsign (m_hisCall)
@@ -4013,7 +4043,9 @@ void MainWindow::readFromStdout()                             //readFromStdout
                                                     , m_wantedCountryList
                                                     , m_windowPopup
                                                     , this
+                                                    , distance
                                                     );
+
       if(m_position != 0) ui->decodedTextBrowser->horizontalScrollBar()->setValue(m_position);
       if (notified & 1) m_notified = true;
 
@@ -4041,8 +4073,11 @@ void MainWindow::readFromStdout()                             //readFromStdout
       }
           QTimer::singleShot (100, [=] {
               if ((m_config.alertOnDXCall ()) && (play_DXcall) && (m_hisCall!="")) {
+#ifdef WIN32
               QSound::play("./bin/sounds/DXcall.wav");
-              QSound::play("./sounds/DXcall.wav");
+#else
+              QSound::play(QDir::homePath() + "/sounds/DXcall.wav");  // for Linux and macOS
+#endif
               }
               play_DXcall = false;
           });
@@ -6284,6 +6319,9 @@ void MainWindow::on_actionJT9_triggered()
   m_TRperiod=60.0;
   commonActions();
   enableHoundAccess(false);
+  ui->jtButton->setChecked(false);
+  ui->ft8Button->setChecked(false);
+  ui->ft4Button->setChecked(false);
 }
 
 void MainWindow::on_actionT10_triggered()
@@ -6301,6 +6339,9 @@ void MainWindow::on_actionT10_triggered()
   m_TRperiod=60.0;
   commonActions();
   enableHoundAccess(false);
+  ui->jtButton->setChecked(false);
+  ui->ft8Button->setChecked(false);
+  ui->ft4Button->setChecked(false);
 }
 
 void MainWindow::on_actionFT4_triggered()
@@ -6320,6 +6361,9 @@ void MainWindow::on_actionFT4_triggered()
   if(!m_hint) ui->hintButton->click();
   commonActions();
   enableHoundAccess(false);
+  ui->ft4Button->setChecked(true);
+  ui->ft8Button->setChecked(false);
+  ui->jtButton->setChecked(false);
 }
 
 void MainWindow::on_actionFT8_triggered()
@@ -6342,6 +6386,9 @@ void MainWindow::on_actionFT8_triggered()
   ui->candListSpinBox->setEnabled(true); ui->DTCenterSpinBox->setEnabled(true);
   ui->DTCenterSpinBox->setVisible(true); ui->pbTxMode->setVisible(false);
   enableHoundAccess(true);
+  ui->ft8Button->setChecked(true);
+  ui->ft4Button->setChecked(false);
+  ui->jtButton->setChecked(false);
 }
 
 void MainWindow::on_actionJT65_triggered()
@@ -6365,6 +6412,9 @@ void MainWindow::on_actionJT65_triggered()
   ui->pbTxMode->setEnabled(false);
   commonActions();
   enableHoundAccess(false);
+  ui->jtButton->setChecked(false);
+  ui->ft8Button->setChecked(false);
+  ui->ft4Button->setChecked(false);
 }
 
 void MainWindow::on_actionJT9_JT65_triggered()
@@ -6381,6 +6431,9 @@ void MainWindow::on_actionJT9_JT65_triggered()
   ui->actionJT9_JT65->setChecked(true);
   commonActions();
   enableHoundAccess(false);
+  ui->jtButton->setChecked(true);
+  ui->ft8Button->setChecked(false);
+  ui->ft4Button->setChecked(false);
 }
 
 void MainWindow::on_actionWSPR_2_triggered()
@@ -6415,6 +6468,9 @@ void MainWindow::on_actionWSPR_2_triggered()
   progressBar->setFormat("%v/%m");
   statusChanged();
   on_spotLineEdit_textChanged(ui->spotLineEdit->text());
+  ui->jtButton->setChecked(false);
+  ui->ft8Button->setChecked(false);
+  ui->ft4Button->setChecked(false);
 }
 
 void MainWindow::switch_mode (Mode mode)
@@ -6814,6 +6870,82 @@ void MainWindow::band_changed (Frequency f)
     m_lastloggedtime=m_lastloggedtime.addSecs(-7*int(m_TRperiod));
     m_lastloggedcall.clear(); setLastLogdLabel();
   }
+
+  QTimer::singleShot (75, [=] {                       // set state and colors of the band buttons
+      if(m_config.bands()->find (m_freqNominal)=="160m") {
+          ui->pb160->setChecked(true);
+          ui->pb160->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb160->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="80m") {
+          ui->pb80->setChecked(true);
+          ui->pb80->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb80->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="60m") {
+          ui->pb60->setChecked(true);
+          ui->pb60->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb60->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="40m") {
+          ui->pb40->setChecked(true);
+          ui->pb40->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb40->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="30m") {
+          ui->pb30->setChecked(true);
+          ui->pb30->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb30->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="20m") {
+          ui->pb20->setChecked(true);
+          ui->pb20->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb20->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="17m") {
+          ui->pb17->setChecked(true);
+          ui->pb17->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb17->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="15m") {
+          ui->pb15->setChecked(true);
+          ui->pb15->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb15->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="12m") {
+          ui->pb12->setChecked(true);
+          ui->pb12->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb12->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="10m") {
+          ui->pb10->setChecked(true);
+          ui->pb10->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb10->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="6m") {
+          ui->pb6->setChecked(true);
+          ui->pb6->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb6->setChecked(false);
+      }
+      if(m_config.bands()->find (m_freqNominal)=="2m") {
+          ui->pb2->setChecked(true);
+          ui->pb2->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
+      } else {
+          ui->pb2->setChecked(false);
+      }
+  });
+
 }
 
 void MainWindow::enable_DXCC_entity ()
@@ -8784,3 +8916,189 @@ void MainWindow::bandHopping()
   }
 }
 
+void MainWindow::on_actionBand_buttons_toggled(bool checked)
+{
+    if(!checked) {
+        ui->pb160->setVisible(!checked);
+        ui->pb80->setVisible(!checked);
+        ui->pb60->setVisible(!checked);
+        ui->pb40->setVisible(!checked);
+        ui->pb30->setVisible(!checked);
+        ui->pb20->setVisible(!checked);
+        ui->pb17->setVisible(!checked);
+        ui->pb15->setVisible(!checked);
+        ui->pb12->setVisible(!checked);
+        ui->pb10->setVisible(!checked);
+        ui->pb6->setVisible(!checked);
+        ui->pb2->setVisible(!checked);
+    } else {
+        ui->pb160->setVisible(false);
+        ui->pb80->setVisible(false);
+        ui->pb60->setVisible(false);
+        ui->pb40->setVisible(false);
+        ui->pb30->setVisible(false);
+        ui->pb20->setVisible(false);
+        ui->pb17->setVisible(false);
+        ui->pb15->setVisible(false);
+        ui->pb12->setVisible(false);
+        ui->pb10->setVisible(false);
+        ui->pb6->setVisible(false);
+        ui->pb2->setVisible(false);
+    }
+}
+
+void MainWindow::on_pb160_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 1840000;
+    if(m_mode=="FT4") m_freqNominal = 1840000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 1838000;
+    if(m_mode=="JT9") m_freqNominal = 1839000;
+    if(m_mode=="T10") m_freqNominal = 1839500;
+    if(m_mode=="WSPR-2") m_freqNominal = 1836600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb80_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 3573000;
+    if(m_mode=="FT4") m_freqNominal = 3575000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 3570000;
+    if(m_mode=="JT9") m_freqNominal = 3572000;
+    if(m_mode=="T10") m_freqNominal = 3572500;
+    if(m_mode=="WSPR-2") m_freqNominal = 3568600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb60_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 5357000;
+    if(m_mode=="FT4") m_freqNominal = 5357000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 5357000;
+    if(m_mode=="JT9") m_freqNominal = 5357000;
+    if(m_mode=="T10") m_freqNominal = 5357500;
+    if(m_mode=="WSPR-2") m_freqNominal = 5357000;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb40_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 7074000;
+    if(m_mode=="FT4") m_freqNominal = 7047500;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 7076000;
+    if(m_mode=="JT9") m_freqNominal = 7078000;
+    if(m_mode=="T10") m_freqNominal = 7079000;
+    if(m_mode=="WSPR-2") m_freqNominal = 7038600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb30_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 10136000;
+    if(m_mode=="FT4") m_freqNominal = 10140000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 10138000;
+    if(m_mode=="JT9") m_freqNominal = 10140000;
+    if(m_mode=="T10") m_freqNominal = 10141000;
+    if(m_mode=="WSPR-2") m_freqNominal = 10138700;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb20_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 14074000;
+    if(m_mode=="FT4") m_freqNominal = 14080000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 14076000;
+    if(m_mode=="JT9") m_freqNominal = 14078000;
+    if(m_mode=="T10") m_freqNominal = 14079000;
+    if(m_mode=="WSPR-2") m_freqNominal = 14095600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb17_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 18100000;
+    if(m_mode=="FT4") m_freqNominal = 18104000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 18102000;
+    if(m_mode=="JT9") m_freqNominal = 18104000;
+    if(m_mode=="T10") m_freqNominal = 18105000;
+    if(m_mode=="WSPR-2") m_freqNominal = 18104600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb15_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 21074000;
+    if(m_mode=="FT4") m_freqNominal = 21140000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 21076000;
+    if(m_mode=="JT9") m_freqNominal = 21078000;
+    if(m_mode=="T10") m_freqNominal = 21079000;
+    if(m_mode=="WSPR-2") m_freqNominal = 21094600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb12_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 24915000;
+    if(m_mode=="FT4") m_freqNominal = 24919000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 24917000;
+    if(m_mode=="JT9") m_freqNominal = 24919000;
+    if(m_mode=="T10") m_freqNominal = 24920000;
+    if(m_mode=="WSPR-2") m_freqNominal = 24924600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb10_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 28074000;
+    if(m_mode=="FT4") m_freqNominal = 28180000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 28076000;
+    if(m_mode=="JT9") m_freqNominal = 28078000;
+    if(m_mode=="T10") m_freqNominal = 28079000;
+    if(m_mode=="WSPR-2") m_freqNominal = 28124600;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb6_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 50313000;
+    if(m_mode=="FT4") m_freqNominal = 50318000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 50310000;
+    if(m_mode=="JT9") m_freqNominal = 50312000;
+    if(m_mode=="T10") m_freqNominal = 50312500;
+    if(m_mode=="WSPR-2") m_freqNominal = 50293000;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}
+
+void MainWindow::on_pb2_clicked()
+{
+    if(m_mode=="FT8") m_freqNominal = 144174000;
+    if(m_mode=="FT4") m_freqNominal = 144170000;
+    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 144120000;
+    if(m_mode=="JT9") m_freqNominal = 144122000;
+    if(m_mode=="T10") m_freqNominal = 144176000;
+    if(m_mode=="WSPR-2") m_freqNominal = 144489000;
+    m_freqTxNominal = m_freqNominal;
+    setRig ();
+    band_changed (m_freqNominal);
+}

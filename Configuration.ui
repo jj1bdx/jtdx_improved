@@ -327,27 +327,7 @@
             <property name="verticalSpacing">
              <number>3</number>
             </property>
-            <item row="0" column="2">
-             <widget class="QPushButton" name="font_push_button">
-              <property name="toolTip">
-               <string>Set the font characteristics for the application.</string>
-              </property>
-              <property name="text">
-               <string>Application Font...</string>
-              </property>
-             </widget>
-            </item>
             <item row="1" column="2">
-             <widget class="QPushButton" name="decoded_text_font_push_button">
-              <property name="toolTip">
-               <string>Set the font characteristics for the Band Activity and Rx Frequency areas.</string>
-              </property>
-              <property name="text">
-               <string>Decoded Text Font...</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
              <widget class="QCheckBox" name="scroll_check_box">
               <property name="toolTip">
                <string>Scroll message windows down not up.</string>
@@ -357,37 +337,17 @@
               </property>
              </widget>
             </item>
-            <item row="1" column="0">
-             <widget class="QCheckBox" name="miles_check_box">
+            <item row="4" column="0">
+             <widget class="QCheckBox" name="cb_showDistance">
               <property name="toolTip">
-               <string>Show distance to DX station in miles rather than kilometers.</string>
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If a station sends locator, calculate and show the distance in Band Activity pane.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
               </property>
               <property name="text">
-               <string>Display dista&amp;nce in miles</string>
+               <string>Show distance in messages with grid</string>
               </property>
              </widget>
             </item>
-            <item row="2" column="0">
-             <widget class="QCheckBox" name="hide_TX_messages_check_box">
-              <property name="toolTip">
-               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When TX message is changed previous message will not be shown if it was transmitted for less than 2 seconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-              </property>
-              <property name="text">
-               <string>&amp;Hide partially transmitted messages</string>
-              </property>
-             </widget>
-            </item>
-            <item row="3" column="1">
-             <widget class="QCheckBox" name="countryPrefix_check_box">
-              <property name="toolTip">
-               <string>Append prefix instead of name.</string>
-              </property>
-              <property name="text">
-               <string>Show &amp;prefix not name</string>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
+            <item row="2" column="2">
              <widget class="QCheckBox" name="TX_messages_check_box">
               <property name="enabled">
                <bool>true</bool>
@@ -413,6 +373,46 @@
               </property>
              </widget>
             </item>
+            <item row="0" column="4">
+             <widget class="QPushButton" name="font_push_button">
+              <property name="toolTip">
+               <string>Set the font characteristics for the application.</string>
+              </property>
+              <property name="text">
+               <string>Application Font...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="4">
+             <widget class="QPushButton" name="decoded_text_font_push_button">
+              <property name="toolTip">
+               <string>Set the font characteristics for the Band Activity and Rx Frequency areas.</string>
+              </property>
+              <property name="text">
+               <string>Decoded Text Font...</string>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="2">
+             <widget class="QCheckBox" name="countryPrefix_check_box">
+              <property name="toolTip">
+               <string>Append prefix instead of name.</string>
+              </property>
+              <property name="text">
+               <string>Show &amp;prefix not name</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="miles_check_box">
+              <property name="toolTip">
+               <string>Show distance to DX station in miles rather than kilometers.</string>
+              </property>
+              <property name="text">
+               <string>Display dista&amp;nce in miles</string>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
              <widget class="QCheckBox" name="insert_blank_check_box">
               <property name="toolTip">
@@ -423,7 +423,27 @@
               </property>
              </widget>
             </item>
-            <item row="0" column="1">
+            <item row="4" column="2">
+             <widget class="QCheckBox" name="cb_showAzimuth">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;If a station sends a valid Maidenhead locator, calculate and show the great-circle azimuth in Band Activity pane.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>Show azimuth in messages with grid</string>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="hide_TX_messages_check_box">
+              <property name="toolTip">
+               <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;When TX message is changed previous message will not be shown if it was transmitted for less than 2 seconds.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              </property>
+              <property name="text">
+               <string>&amp;Hide partially transmitted messages</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="2">
              <layout class="QHBoxLayout" name="horizontalLayout_40">
               <item>
                <widget class="QCheckBox" name="useDarkStyle_check_box">
@@ -432,15 +452,58 @@
                 </property>
                </widget>
               </item>
+             </layout>
+            </item>
+            <item row="0" column="3">
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>0</width>
+                <height>0</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item row="4" column="3" colspan="2">
+             <layout class="QHBoxLayout" name="horizontalLayout_6">
               <item>
-               <spacer name="horizontalSpacer_2">
+               <widget class="QCheckBox" name="cb_Align">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Align the text for DXCC, distance and azimuth.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="text">
+                 <string>Align DXCC / distance / azimuth</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="align_spin_box">
+                <property name="toolTip">
+                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Increase or decrease the space between DXCC and distance/azimuth.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                </property>
+                <property name="minimum">
+                 <number>-2</number>
+                </property>
+                <property name="maximum">
+                 <number>10</number>
+                </property>
+                <property name="value">
+                 <number>1</number>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_7">
                 <property name="orientation">
                  <enum>Qt::Horizontal</enum>
                 </property>
                 <property name="sizeHint" stdset="0">
                  <size>
                   <width>0</width>
-                  <height>0</height>
+                  <height>20</height>
                  </size>
                 </property>
                </spacer>
@@ -7580,11 +7643,11 @@ soundcard changes</string>
  </connections>
  <buttongroups>
   <buttongroup name="CAT_data_bits_button_group"/>
-  <buttongroup name="split_mode_button_group"/>
   <buttongroup name="CAT_stop_bits_button_group"/>
-  <buttongroup name="CAT_handshake_button_group"/>
   <buttongroup name="TX_mode_button_group"/>
-  <buttongroup name="PTT_method_button_group"/>
+  <buttongroup name="split_mode_button_group"/>
+  <buttongroup name="CAT_handshake_button_group"/>
   <buttongroup name="TX_audio_source_button_group"/>
+  <buttongroup name="PTT_method_button_group"/>
  </buttongroups>
 </ui>

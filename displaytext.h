@@ -26,7 +26,7 @@ public:
                            QsoHistory& qsoHistory2, double dialFreq = 0, const QString app_mode = "",
                            bool bypassRxfFilters = false, bool bypassAllFilters = false, int rx_frq = 0,
                            QStringList wantedCallList = QStringList(), QStringList wantedPrefixList = QStringList(), QStringList wantedGridList = QStringList(),
-                           QStringList wantedCountryList = QStringList(), bool windowPopup = false, QWidget* window = NULL);
+                           QStringList wantedCountryList = QStringList(), bool windowPopup = false, QWidget* window = NULL, QString distance = "");
     void displayTransmittedText(QString text, QString myCall, QString hisCall, QString skip_tx1, QString modeTx, qint32 txFreq,
                                 QColor color_TxMsg, QsoHistory& qsoHistory);
     void displayQSY(QString text);
@@ -114,6 +114,8 @@ private:
     bool yellow_;
     bool hidehintMarker_;
     bool hide_TX_messages_;
+    bool align_;
+    qint32 align_steps_;
     QsoHistory::Status mystatus_ = QsoHistory::NONE;
     unsigned max_r_time = 0;
     QTextCharFormat m_charFormat;

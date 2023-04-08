@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>733</width>
-    <height>668</height>
+    <height>647</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -78,7 +78,7 @@
        <bool>false</bool>
       </property>
       <widget class="QWidget" name="layoutWidget">
-       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0">
+       <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0,0,0,0">
         <property name="spacing">
          <number>1</number>
         </property>
@@ -300,6 +300,322 @@
            <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
           </property>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="Band_buttons_Layout">
+          <item>
+           <widget class="QPushButton" name="pb160">
+            <property name="minimumSize">
+             <size>
+              <width>25</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>160</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb80">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>80</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb60">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>60</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb40">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>40</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb30">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>30</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb20">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>20</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb17">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>17</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb15">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>15</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb12">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>12</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb10">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>10</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb6">
+            <property name="minimumSize">
+             <size>
+              <width>15</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>6</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pb2">
+            <property name="minimumSize">
+             <size>
+              <width>15</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+            </property>
+            <property name="text">
+             <string>2</string>
+            </property>
+            <property name="checkable">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
         <item>
          <layout class="QGridLayout" name="gridLayout_9">
@@ -1846,8 +2162,21 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                 <height>16777215</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+              </property>
               <property name="text">
                <string>FT8</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -1875,7 +2204,6 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
 	border-width: 1px;
 	border-radius: 5px;
     border-color: black;
-	min-width: 5em;
 	padding: 3px;
 }</string>
               </property>
@@ -1901,8 +2229,21 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                 <height>16777215</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+              </property>
               <property name="text">
                <string>FT4</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -1920,8 +2261,21 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                 <height>16777215</height>
                </size>
               </property>
+              <property name="styleSheet">
+               <string notr="true">QPushButton:checked {
+	background-color: #00ff00;
+    border-style: outset;
+	border-width: 1px;
+	border-radius: 5px;
+    border-color: black;
+	padding: 3px;
+}</string>
+              </property>
               <property name="text">
                <string>JT</string>
+              </property>
+              <property name="checkable">
+               <bool>true</bool>
               </property>
              </widget>
             </item>
@@ -2322,6 +2676,28 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                <property name="spacing">
                 <number>0</number>
                </property>
+               <item row="6" column="0">
+                <widget class="QPushButton" name="pbTxLock">
+                 <property name="maximumSize">
+                  <size>
+                   <width>16777215</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use different Rx/Tx AF frequencies or set Tx frequency equal to Rx AF frequency.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                 </property>
+                 <property name="styleSheet">
+                  <string notr="true"/>
+                 </property>
+                 <property name="text">
+                  <string>Split Tx/Rx</string>
+                 </property>
+                 <property name="checkable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
                <item row="2" column="0">
                 <widget class="QSpinBox" name="TxFreqSpinBox">
                  <property name="sizePolicy">
@@ -2365,7 +2741,7 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="4" column="0">
                 <widget class="QSpinBox" name="RxFreqSpinBox">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -2408,39 +2784,11 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
+               <item row="3" column="0">
                 <layout class="QHBoxLayout" name="horizontalLayout_25">
                  <property name="spacing">
                   <number>2</number>
                  </property>
-                 <item>
-                  <widget class="QPushButton" name="pbT2R">
-                   <property name="sizePolicy">
-                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-                     <horstretch>1</horstretch>
-                     <verstretch>0</verstretch>
-                    </sizepolicy>
-                   </property>
-                   <property name="minimumSize">
-                    <size>
-                     <width>0</width>
-                     <height>0</height>
-                    </size>
-                   </property>
-                   <property name="maximumSize">
-                    <size>
-                     <width>40</width>
-                     <height>40</height>
-                    </size>
-                   </property>
-                   <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Rx frequency to Tx Frequency&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                   </property>
-                   <property name="text">
-                    <string>▲</string>
-                   </property>
-                  </widget>
-                 </item>
                  <item>
                   <widget class="QPushButton" name="pbR2T">
                    <property name="sizePolicy">
@@ -2462,7 +2810,35 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                     </size>
                    </property>
                    <property name="toolTip">
-                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Tx frequency to Rx Frequency&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Tx frequency to Rx Frequency.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+                   </property>
+                   <property name="text">
+                    <string>▲</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QPushButton" name="pbT2R">
+                   <property name="sizePolicy">
+                    <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                     <horstretch>1</horstretch>
+                     <verstretch>0</verstretch>
+                    </sizepolicy>
+                   </property>
+                   <property name="minimumSize">
+                    <size>
+                     <width>0</width>
+                     <height>0</height>
+                    </size>
+                   </property>
+                   <property name="maximumSize">
+                    <size>
+                     <width>40</width>
+                     <height>40</height>
+                    </size>
+                   </property>
+                   <property name="toolTip">
+                    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Set Rx frequency to Tx Frequency.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                    </property>
                    <property name="text">
                     <string>▼</string>
@@ -2470,28 +2846,6 @@ ZD8,ZD9,ZF,ZK3,ZL,ZL7,ZL8,ZL9,ZP,ZS,ZS8&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</str
                   </widget>
                  </item>
                 </layout>
-               </item>
-               <item row="3" column="0">
-                <widget class="QPushButton" name="pbTxLock">
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                 <property name="toolTip">
-                  <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Use different Rx/Tx AF frequencies or set Tx frequency equal to Rx AF frequency.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-                 </property>
-                 <property name="styleSheet">
-                  <string notr="true"/>
-                 </property>
-                 <property name="text">
-                  <string>Split Tx/Rx</string>
-                 </property>
-                 <property name="checkable">
-                  <bool>true</bool>
-                 </property>
-                </widget>
                </item>
               </layout>
              </item>
@@ -5107,6 +5461,7 @@ list. The list can be maintained in Settings (F2).</string>
     </property>
     <addaction name="actionWide_Waterfall"/>
     <addaction name="actionMessage_averaging"/>
+    <addaction name="actionBand_buttons"/>
    </widget>
    <widget class="QMenu" name="menuDecode">
     <property name="title">
@@ -5251,6 +5606,9 @@ list. The list can be maintained in Settings (F2).</string>
     <addaction name="actionJTDX_Web_Site"/>
     <addaction name="actionJTDX_Forum"/>
     <addaction name="download_samples_action"/>
+    <addaction name="separator"/>
+    <addaction name="actionJTDX_improved_Home_Page"/>
+    <addaction name="actionThe_additional_features_of_jtdx_improved"/>
     <addaction name="separator"/>
     <addaction name="actionKeyboard_shortcuts"/>
     <addaction name="actionSpecial_mouse_commands"/>
@@ -6692,6 +7050,30 @@ list. The list can be maintained in Settings (F2).</string>
    </property>
    <property name="text">
     <string>24</string>
+   </property>
+  </action>
+  <action name="actionJTDX_improved_Home_Page">
+   <property name="text">
+    <string>JTDX_improved Home Page</string>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Go to the jtdx_improved home page.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionThe_additional_features_of_jtdx_improved">
+   <property name="text">
+    <string>The additional features of jtdx_improved</string>
+   </property>
+   <property name="whatsThis">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Overview on the additional features of jtdx_improved.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionBand_buttons">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Hide band buttons</string>
    </property>
   </action>
  </widget>

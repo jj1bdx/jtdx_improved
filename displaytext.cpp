@@ -2,6 +2,7 @@
 
 #include <QSound>
 #include <QAudioOutput>
+#include <QDir>
 #include <QTimer>
 #include <QtGlobal>
 #include <QApplication>
@@ -129,7 +130,9 @@ void DisplayText::setConfiguration(Configuration const * config)
   hideContinents_ = config->hideContinents();
   countries_ = config->countries();
   callsigns_ = config->callsigns();
-  myCall_ = config->my_callsign();   
+  myCall_ = config->my_callsign();
+  align_ = config->align();
+  align_steps_ = config->align_steps();
 }
 
 void DisplayText::setMyContinent(QString const& mycontinet)
@@ -264,12 +267,11 @@ void DisplayText::appendText(QString const& text, QString const& bg, QString con
     document ()->setMaximumBlockCount (document ()->maximumBlockCount ());
 }
 
-int DisplayText::displayDecodedText(DecodedText* decodedText, QString myCall, QString hisCall, QString hisGrid,
-                            bool once_notified, LogBook logBook, QsoHistory& qsoHistory,
+int DisplayText::displayDecodedText(DecodedText* decodedText, QString myCall, QString hisCall, QString hisGrid, bool once_notified, LogBook logBook, QsoHistory& qsoHistory,
                             QsoHistory& qsoHistory2, double dialFreq, const QString app_mode,
-                            bool bypassRxfFilters,bool bypassAllFilters, int rx_frq,
-                            QStringList wantedCallList, QStringList wantedPrefixList, QStringList wantedGridList, 
-                            QStringList wantedCountryList, bool windowPopup, QWidget* window)
+                            bool bypassRxfFilters, bool bypassAllFilters, int rx_frq,
+                            QStringList wantedCallList, QStringList wantedPrefixList, QStringList wantedGridList,
+                            QStringList wantedCountryList, bool windowPopup, QWidget* window, QString distance)
 {
     QString bgColor = Radio::convert_dark("#ffffff",useDarkStyle_);
     QString txtColor = Radio::convert_dark("#000000",useDarkStyle_);
@@ -1000,6 +1002,28 @@ int DisplayText::displayDecodedText(DecodedText* decodedText, QString myCall, QS
         bgColor = Radio::convert_dark("#ffffff",useDarkStyle_);
         txtColor = Radio::convert_dark("#000000",useDarkStyle_);
     }
+
+    if (distance.length() > 0) {
+        if (align_) {
+            QString space = " ";
+            if (!displayCountryName_) {
+                cntry = space.repeated(align_steps_) + "[" + distance + "]";
+            } else {
+                if (displayCountryPrefix_) {
+                    cntry = (cntry + space.repeated(20)).left(4 + align_steps_) + "[" + distance + "]";
+                } else {
+                    if (cntry.length() < 13 + align_steps_) {
+                        cntry = (cntry + space.repeated(20)).left(13 + align_steps_) + "[" + distance + "]";
+                    } else {
+                        cntry = cntry + " [" + distance + "]";
+                    }
+                }
+            }
+        } else {
+            cntry = (cntry + " [" + distance + "]");
+        }
+    }
+
     if (show_line) {
         if (!checkCall.isEmpty () && (std_type == 1 || std_type == 2 || std_type == 4 || (std_type == 3 && !param.isEmpty()))) {
             qsoHistory.message(checkCall,status,priority,param,tyyp,countryName.left(2),mpx,c_time,decodedText->report(),decodedText->frequencyOffset(),checkMode);
@@ -1014,7 +1038,7 @@ int DisplayText::displayDecodedText(DecodedText* decodedText, QString myCall, QS
             if (differentBackground_ && yellow_ && messageText.contains(myCall)) {
                   appendText(messageText, bgColor = "#ffff00", txtColor, std_type, servis, servisColor, cntry, forceBold, strikethrough, underlined, decodedText->isDXped(), false, bwantedCall||bwantedGrid||bwantedPrefix||bwantedCountry);
             } else {
-                if (highlightDXCall_ && (messageText.contains(QRegularExpression {"(\\w+) " + DXCall_})) && messageText.contains("CQ ") && DXCall_!="") txtColor = "#ffffff", bgColor = "#ff0000";
+//                if (highlightDXCall_ && (messageText.contains(QRegularExpression {"(\\w+) " + DXCall_})) && messageText.contains("CQ ") && DXCall_!="") txtColor = "#ffffff", bgColor = "#ff0000";
                 appendText(messageText, bgColor, txtColor, std_type, servis, servisColor, cntry, forceBold, strikethrough, underlined, decodedText->isDXped(), false, bwantedCall||bwantedGrid||bwantedPrefix||bwantedCountry);
                 }
         }
@@ -1309,14 +1333,17 @@ void DisplayText::highlight_callsign (QString const& callsign, QColor const& bg,
 
 void DisplayText::AudioAlerts()
 {
-    QAudioOutput (QAudioDeviceInfo::defaultOutputDevice());
+    QAudioOutput device(QAudioDeviceInfo::defaultOutputDevice());
     static int startIndex = 0;
     int nextStartIndex = startIndex +1;
     switch (startIndex){
     case 0:
         if (play_MyCall) {
-            QSound::play("./bin/sounds/MyCall.wav");  // UR
-            QSound::play("./sounds/MyCall.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/MyCall.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/MyCall.wav");  // for Linux and macOS
+#endif
             play_MyCall = false;
             alertsTimer.start (1200);
             startIndex = nextStartIndex;
@@ -1327,8 +1354,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 1:
         if (play_DXCC) {
-            QSound::play("./bin/sounds/DXCC.wav");  // UR
-            QSound::play("./sounds/DXCC.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/DXCC.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/DXCC.wav");  // for Linux and macOS
+#endif
             play_DXCC = false;
             play_DXCCOB = false;
             alertsTimer.start (1400);
@@ -1340,8 +1370,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 2:
         if (play_DXCCOB & !play_DXCC) {
-            QSound::play("./bin/sounds/DXCCOnBand.wav");  // UR
-            QSound::play("./sounds/DXCCOnBand.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/DXCCOnBand.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/DXCCOnBand.wav");  // for Linux and macOS
+#endif
             play_DXCCOB = false;
             alertsTimer.start (2000);
             startIndex = nextStartIndex;
@@ -1352,8 +1385,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 3:
         if (play_CQZ) {
-            QSound::play("./bin/sounds/CQZone.wav");  // UR
-            QSound::play("./sounds/CQZone.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/CQZone.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/CQZone.wav");  // for Linux and macOS
+#endif
             play_CQZ = false;
             play_CQZOB = false;
             alertsTimer.stop ();    // UR
@@ -1366,8 +1402,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 4:
         if (play_CQZOB & !play_CQZ) {
-            QSound::play("./bin/sounds/CQZoneOnBand.wav");  // UR
-            QSound::play("./sounds/CQZoneOnBand.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/CQZoneOnBand.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/CQZoneOnBand.wav");  // for Linux and macOS
+#endif
             play_CQZOB = false;
             alertsTimer.start (2000);
             startIndex = nextStartIndex;
@@ -1378,8 +1417,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 5:
         if (play_ITUZ) {
-            QSound::play("./bin/sounds/ITUZone.wav");  // UR
-            QSound::play("./sounds/ITUZone.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/ITUZone.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/ITUZone.wav");  // for Linux and macOS
+#endif
             play_ITUZ = false;
             play_ITUZOB = false;
             alertsTimer.start (1600);
@@ -1391,8 +1433,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 6:
         if (play_ITUZOB & !play_ITUZ) {
-            QSound::play("./bin/sounds/ITUZoneOnBand.wav");  // UR
-            QSound::play("./sounds/ITUZoneOnBand.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/ITUZoneOnBand.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/ITUZoneOnBand.wav");  // for Linux and macOS
+#endif
             play_ITUZOB = false;
             alertsTimer.start (2000);
             startIndex = nextStartIndex;
@@ -1403,8 +1448,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 7:
         if (play_Grid) {
-            QSound::play("./bin/sounds/Grid.wav");  // UR
-            QSound::play("./sounds/Grid.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/Grid.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/Grid.wav");  // for Linux and macOS
+#endif
             play_Grid = false;
             play_GridOB = false;
             alertsTimer.start (1250);
@@ -1416,8 +1464,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 8:
         if (play_GridOB & !play_Grid) {
-            QSound::play("./bin/sounds/GridOnBand.wav");  // UR
-            QSound::play("./sounds/GridOnBand.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/GridOnBand.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/GridOnBand.wav");  // for Linux and macOS
+#endif
             play_GridOB = false;
             alertsTimer.start (1800);
             startIndex = nextStartIndex;
@@ -1428,8 +1479,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 9:
         if (play_Px) {
-            QSound::play("./bin/sounds/Px.wav");  // UR
-            QSound::play("./sounds/Px.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/Px.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/Px.wav");  // for Linux and macOS
+#endif
             play_Px = false;
             alertsTimer.start (1200);
             startIndex = 0;
@@ -1440,8 +1494,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 10:
         if (play_PxOB & !play_Px) {
-            QSound::play("./bin/sounds/PxOnBand.wav");  // UR
-            QSound::play("./sounds/PxOnBand.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/PxOnBand.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/PxOnBand.wav");  // for Linux and macOS
+#endif
             play_PxOB = false;
             play_CQ = false;
             alertsTimer.start (1800);
@@ -1453,8 +1510,11 @@ void DisplayText::AudioAlerts()
         Q_FALLTHROUGH();
     case 11:
         if (play_CQ) {
-            QSound::play("./bin/sounds/CQ.wav");  // UR
-            QSound::play("./sounds/CQ.wav");  // UR for Linux
+#ifdef WIN32
+            QSound::play("./bin/sounds/CQ.wav");
+#else
+            QSound::play(QDir::homePath() + "/sounds/CQ.wav");  // for Linux and macOS
+#endif
             play_CQ = false;
             alertsTimer.start (1000);
             startIndex = 0;

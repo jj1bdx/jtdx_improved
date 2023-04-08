@@ -100,6 +100,7 @@ public:
   QFont text_font () const;
   QFont decoded_text_font () const;
   qint32 id_interval () const;
+  qint32 align_steps () const;
   qint32 ntrials() const;
   qint32 ntrials10() const;
   qint32 ntrialsrxf10() const;
@@ -186,6 +187,9 @@ public:
   bool differentBackground () const;
   bool cyan () const;
   bool yellow () const;
+  bool showDistance() const ;
+  bool showAzimuth() const ;
+  bool align() const ;
   bool hidehintMarker () const;
   bool txtColor () const;
   bool workedStriked () const;

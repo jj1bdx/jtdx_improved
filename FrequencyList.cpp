@@ -54,12 +54,10 @@ namespace
       {3568000, Modes::FT4, IARURegions::R3,true},   // provisional
       {3585000, Modes::FT8, IARURegions::ALL,false},
 
-      {5126000, Modes::FT8, IARURegions::ALL,false},
       {5357000, Modes::JT65, IARURegions::ALL,true},
       {5357500, Modes::T10, IARURegions::ALL,true},
       {5357000, Modes::FT8, IARURegions::ALL,true},
-      {5287200, Modes::WSPR, IARURegions::ALL,true},
-      {5362000, Modes::FT8, IARURegions::ALL,false},
+      {5357000, Modes::WSPR, IARURegions::ALL,true},
 
       {7038600, Modes::WSPR, IARURegions::ALL,true},
       {7047500, Modes::FT4, IARURegions::ALL,true}, // provisional - moved
