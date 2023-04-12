@@ -157,6 +157,7 @@ private slots:
   void on_actionDelete_all_wav_files_in_SaveDir_triggered();
   void on_actionOpen_log_directory_triggered ();
   void on_actionNone_triggered();
+  void on_actionBand_buttons_toggled(bool checked);
   void on_actionSave_all_triggered();
   void on_actionEnglish_triggered();
   void on_actionEstonian_triggered();
@@ -368,6 +369,14 @@ private slots:
   bool stdCall(QString const& w);
   void ScrollBarPosition(int n);
   void on_S_meter_button_clicked(bool checked);
+  void on_pb40_clicked();
+  void on_pb30_clicked();
+  void on_pb20_clicked();
+  void on_pb17_clicked();
+  void on_pb15_clicked();
+  void on_pb12_clicked();
+  void on_pb10_clicked();
+  void on_pb6_clicked();
 
 private:
   Q_SIGNAL void initializeAudioOutputStream (QAudioDeviceInfo,
