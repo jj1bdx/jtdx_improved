@@ -2323,7 +2323,7 @@ void Configuration::impl::read_settings ()
     }
 
   id_interval_ = settings_->value ("IDint", 0).toInt (); if(!(id_interval_>=0 && id_interval_<=99)) id_interval_=0;
-  align_steps_ = settings_->value ("AlignInt", 1).toInt (); if(!(align_steps_>=6 && align_steps_<=-3)) align_steps_=1;
+  align_steps_ = settings_->value ("AlignInt", 1).toInt (); if(!(align_steps_<=10 && align_steps_>=-2)) align_steps_=1;
   ntrials_ = settings_->value ("nTrials", 3).toInt (); if(!(ntrials_>=1 && ntrials_<=8)) ntrials_=3;
 
   qint32 ntxDelay=settings_->value ("TxDelayInt",100).toInt();
