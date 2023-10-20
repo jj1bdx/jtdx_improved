@@ -6914,12 +6914,6 @@ void MainWindow::band_changed (Frequency f)
       } else {
           ui->pb10->setChecked(false);
       }
-      if(m_config.bands()->find (m_freqNominal)=="6m") {
-          ui->pb6->setChecked(true);
-          ui->pb6->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
-      } else {
-          ui->pb6->setChecked(false);
-      }
   });
 
 }
@@ -8902,7 +8896,6 @@ void MainWindow::on_actionBand_buttons_toggled(bool checked)
         ui->pb15->setVisible(!checked);
         ui->pb12->setVisible(!checked);
         ui->pb10->setVisible(!checked);
-        ui->pb6->setVisible(!checked);
     } else {
         ui->pb40->setVisible(false);
         ui->pb30->setVisible(false);
@@ -8911,7 +8904,6 @@ void MainWindow::on_actionBand_buttons_toggled(bool checked)
         ui->pb15->setVisible(false);
         ui->pb12->setVisible(false);
         ui->pb10->setVisible(false);
-        ui->pb6->setVisible(false);
     }
 }
 
@@ -9006,15 +8998,3 @@ void MainWindow::on_pb10_clicked()
     band_changed (m_freqNominal);
 }
 
-void MainWindow::on_pb6_clicked()
-{
-    if(m_mode=="FT8") m_freqNominal = 50313000;
-    if(m_mode=="FT4") m_freqNominal = 50318000;
-    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 50310000;
-    if(m_mode=="JT9") m_freqNominal = 50312000;
-    if(m_mode=="T10") m_freqNominal = 50312500;
-    if(m_mode=="WSPR-2") m_freqNominal = 50293000;
-    m_freqTxNominal = m_freqNominal;
-    setRig ();
-    band_changed (m_freqNominal);
-}

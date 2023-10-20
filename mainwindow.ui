@@ -485,32 +485,6 @@
             </property>
            </widget>
           </item>
-          <item>
-           <widget class="QPushButton" name="pb6">
-            <property name="minimumSize">
-             <size>
-              <width>15</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked {
-	background-color: #00ff00;
-    border-style: outset;
-	border-width: 1px;
-	border-radius: 5px;
-    border-color: black;
-	padding: 3px;
-}</string>
-            </property>
-            <property name="text">
-             <string>6</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item>

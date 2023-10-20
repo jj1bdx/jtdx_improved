@@ -36,7 +36,7 @@ CAboutDlg::CAboutDlg(QWidget *parent) :
                          "&copy; 2022 improved version developed by Uwe Risse, DG2YCB"
                          "<br><br>"
                          "Modified by Kenji Rikitake, JJ1BDX<br>"
-                         "for removing 160m/80m/60m/2m band switches<br>"
+                         "for removing 160m/80m/60m/6m/2m band switches<br>"
                          "added to 2023-03-28 release"
                          "<br><br>"
                          "JTDX is licensed under the terms of Version3<br>"

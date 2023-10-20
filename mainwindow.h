@@ -376,7 +376,6 @@ private slots:
   void on_pb15_clicked();
   void on_pb12_clicked();
   void on_pb10_clicked();
-  void on_pb6_clicked();
 
 private:
   Q_SIGNAL void initializeAudioOutputStream (QAudioDeviceInfo,
