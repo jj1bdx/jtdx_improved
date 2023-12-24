@@ -304,32 +304,6 @@
         <item>
          <layout class="QHBoxLayout" name="Band_buttons_Layout">
           <item>
-           <widget class="QPushButton" name="pb40">
-            <property name="minimumSize">
-             <size>
-              <width>20</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">QPushButton:checked {
-	background-color: #00ff00;
-    border-style: outset;
-	border-width: 1px;
-	border-radius: 5px;
-    border-color: black;
-	padding: 3px;
-}</string>
-            </property>
-            <property name="text">
-             <string>40</string>
-            </property>
-            <property name="checkable">
-             <bool>true</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
            <widget class="QPushButton" name="pb30">
             <property name="minimumSize">
              <size>

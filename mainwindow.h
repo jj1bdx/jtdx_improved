@@ -369,7 +369,6 @@ private slots:
   bool stdCall(QString const& w);
   void ScrollBarPosition(int n);
   void on_S_meter_button_clicked(bool checked);
-  void on_pb40_clicked();
   void on_pb30_clicked();
   void on_pb20_clicked();
   void on_pb17_clicked();

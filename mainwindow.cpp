@@ -6872,12 +6872,6 @@ void MainWindow::band_changed (Frequency f)
   }
 
   QTimer::singleShot (75, [=] {                       // set state and colors of the band buttons
-      if(m_config.bands()->find (m_freqNominal)=="40m") {
-          ui->pb40->setChecked(true);
-          ui->pb40->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
-      } else {
-          ui->pb40->setChecked(false);
-      }
       if(m_config.bands()->find (m_freqNominal)=="30m") {
           ui->pb30->setChecked(true);
           ui->pb30->setStyleSheet(QString("QPushButton:checked{background: %1}").arg(Radio::convert_dark("#00ff00",m_useDarkStyle)));
@@ -8889,7 +8883,6 @@ void MainWindow::bandHopping()
 void MainWindow::on_actionBand_buttons_toggled(bool checked)
 {
     if(!checked) {
-        ui->pb40->setVisible(!checked);
         ui->pb30->setVisible(!checked);
         ui->pb20->setVisible(!checked);
         ui->pb17->setVisible(!checked);
@@ -8897,7 +8890,6 @@ void MainWindow::on_actionBand_buttons_toggled(bool checked)
         ui->pb12->setVisible(!checked);
         ui->pb10->setVisible(!checked);
     } else {
-        ui->pb40->setVisible(false);
         ui->pb30->setVisible(false);
         ui->pb20->setVisible(false);
         ui->pb17->setVisible(false);
@@ -8905,19 +8897,6 @@ void MainWindow::on_actionBand_buttons_toggled(bool checked)
         ui->pb12->setVisible(false);
         ui->pb10->setVisible(false);
     }
-}
-
-void MainWindow::on_pb40_clicked()
-{
-    if(m_mode=="FT8") m_freqNominal = 7074000;
-    if(m_mode=="FT4") m_freqNominal = 7047500;
-    if(m_mode=="JT9+JT65" or m_mode=="JT65") m_freqNominal = 7076000;
-    if(m_mode=="JT9") m_freqNominal = 7078000;
-    if(m_mode=="T10") m_freqNominal = 7079000;
-    if(m_mode=="WSPR-2") m_freqNominal = 7038600;
-    m_freqTxNominal = m_freqNominal;
-    setRig ();
-    band_changed (m_freqNominal);
 }
 
 void MainWindow::on_pb30_clicked()
